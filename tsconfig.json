@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "allowSyntheticDefaultImports": true,
+      "target": "esnext",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "module": "esnext",
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noFallthroughCasesInSwitch": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "baseUrl": "./cypress",
+      "paths": {
+        "@pages": ["support/pages/index.ts"],
+        "@data": ["fixtures/data/index.ts"],
+      }
+    },
+  }
