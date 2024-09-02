@@ -20,16 +20,42 @@ Then('I can\'t see the products prices', ()=> {
 })
 
 When('I enable my location', () => {
+  cy.intercept({
+    method: 'POST',
+    url: `https://c.contentsquare.net/display*`,
+    times: 1,
+  }).as('postContentsquare');
+  cy.intercept({
+    method: 'POST',
+    url: `https://www.merchant-center-analytics.goog/mc/collect*`,
+    times: 1,
+  }).as('postMerchantCenterAnalytics');
+  cy.intercept({
+    method: 'POST',
+    url: `https://maps.googleapis.com/$rpc/google.internal.maps.mapsjs.v1.MapsJsInternalService/GetViewportInfo`,
+    times: 2,
+  }).as('postGoogleMaps');
+  cy.intercept({
+    method: 'GET',
+    url: `/geocoding/autocomplete?*`,
+    times: 2,
+  }).as('getGeocodingAutocomplete');
+  
   cy.contains('button', 'Afficher le prix').click()
-  cy.wait(1000)
+  cy.wait('@postContentsquare').its('response.statusCode').should('eq', 204);
+  // cy.wait(1000)
   cy.get('[id="journey-update-modal_desc"] input').eq(0).type(Cypress.env('zip_code_supermarket_A')).type('{enter}')
-  cy.wait(2000)
+  cy.wait('@postMerchantCenterAnalytics').its('response.statusCode').should('eq', 204);
+  // cy.wait(2000)
   cy.get('li span').contains(Cypress.env('zip_code_supermarket_A')).click()
-  cy.wait(1000)
+  cy.wait('@postGoogleMaps').its('response.statusCode').should('eq', 200);
+  // cy.wait(1000)
   cy.contains('[id="journey-update-modal_desc"] button', 'Choisir').click()
-  cy.wait(1000)
+  cy.wait('@postGoogleMaps').its('response.statusCode').should('eq', 200);
+  // cy.wait(1000)
   cy.get('[id="journey-advanced-shipping-modal"] input[placeholder="Ex : 200 rue de la recherche 59625"]').eq(0).type(Cypress.env('address')).type('{enter}')
-  cy.wait(2000)
+  cy.wait('@getGeocodingAutocomplete').its('response.statusCode').should('eq', 200);
+  // cy.wait(2000)
   cy.contains('[id="journey-advanced-shipping-modal"] li', Cypress.env('address')).click()
 })
 
