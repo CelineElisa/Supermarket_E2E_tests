@@ -13,7 +13,9 @@
       "baseUrl": "./cypress",
       "paths": {
         "@pages": ["support/pages/index.ts"],
-        "@data": ["fixtures/data/index.ts"],
+        "@data": ["fixtures/users_data/index.ts"],
+        "@api": ["support/api/index.ts"],
+        "@utils": ["support/utils.ts"],
       }
     },
   }

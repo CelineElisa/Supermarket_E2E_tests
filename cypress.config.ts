@@ -1,7 +1,7 @@
 import { defineConfig } from "cypress";
-// import * as webpack from "@cypress/webpack-preprocessor";
 import webpackPreprocessor from "@cypress/webpack-preprocessor";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
+import path from 'path'; 
 
 async function setupNodeEvents(
   on: Cypress.PluginEvents,
@@ -16,6 +16,12 @@ async function setupNodeEvents(
       webpackOptions: {
         resolve: {
           extensions: [".ts", ".js"],
+          alias: {
+            '@pages': path.resolve(__dirname, 'cypress/support/pages'), 
+            '@data': path.resolve(__dirname, 'cypress/fixtures/users_data'),
+            '@api': path.resolve(__dirname, 'cypress/support/api'),
+            '@utils': path.resolve(__dirname, 'cypress/support/utils'),
+          },
         },
         module: {
           rules: [

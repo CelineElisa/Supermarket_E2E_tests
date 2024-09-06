@@ -1,64 +1,75 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
+import { SupermarketAHomePage, SupermarketALocationModalPage } from '@pages'
+import { SupermarketAAPI } from '@api'
+import { SupermarketAData } from '@data'
+import { Utils } from '@utils'
+
+const homePage = new SupermarketAHomePage()
+const api = new SupermarketAAPI()
+const user = new SupermarketAData()
    
 Given('I am on the Supermarket A website', () => {
-  cy.visit(Cypress.env('url_supermarket_A'))
-  cy.get('[id="onetrust-accept-btn-handler"]').click()
+  homePage.visit()
+  homePage.acceptCookies()
 })
 
-When('I search for "oeufs bio"', () => {
-  cy.get('[id="search"] input').type('oeufs bio').type('{enter}')
+When('I search for "oeufs"', () => {
+  api.setInterceptGetLocatorConfig()
+  homePage.search('oeufs')
 })
 
 Then('I can see the products results', () => {
-  cy.get('article').should('have.length', 15)
-  cy.get('article').eq(0).contains('Oeufs', {matchCase: false}).contains('Bio', {matchCase: false})
+  homePage.checkArticleNumber(15)
+  homePage.checkArticleContent('Oeufs')
 })
 
 Then('I can\'t see the products prices', ()=> {
-  cy.get('article').eq(0).contains('button','Afficher le prix')
+  homePage.checkArticlePriceIsHidden()
 })
 
 When('I enable my location', () => {
-  cy.intercept({
-    method: 'POST',
-    url: `https://c.contentsquare.net/display*`,
-    times: 1,
-  }).as('postContentsquare');
-  cy.intercept({
-    method: 'POST',
-    url: `https://www.merchant-center-analytics.goog/mc/collect*`,
-    times: 1,
-  }).as('postMerchantCenterAnalytics');
-  cy.intercept({
-    method: 'POST',
-    url: `https://maps.googleapis.com/$rpc/google.internal.maps.mapsjs.v1.MapsJsInternalService/GetViewportInfo`,
-    times: 2,
-  }).as('postGoogleMaps');
-  cy.intercept({
-    method: 'GET',
-    url: `/geocoding/autocomplete?*`,
-    times: 2,
-  }).as('getGeocodingAutocomplete');
-  
-  cy.contains('button', 'Afficher le prix').click()
-  cy.wait('@postContentsquare').its('response.statusCode').should('eq', 204);
-  // cy.wait(1000)
-  cy.get('[id="journey-update-modal_desc"] input').eq(0).type(Cypress.env('zip_code_supermarket_A')).type('{enter}')
-  cy.wait('@postMerchantCenterAnalytics').its('response.statusCode').should('eq', 204);
-  // cy.wait(2000)
-  cy.get('li span').contains(Cypress.env('zip_code_supermarket_A')).click()
-  cy.wait('@postGoogleMaps').its('response.statusCode').should('eq', 200);
-  // cy.wait(1000)
-  cy.contains('[id="journey-update-modal_desc"] button', 'Choisir').click()
-  cy.wait('@postGoogleMaps').its('response.statusCode').should('eq', 200);
-  // cy.wait(1000)
-  cy.get('[id="journey-advanced-shipping-modal"] input[placeholder="Ex : 200 rue de la recherche 59625"]').eq(0).type(Cypress.env('address')).type('{enter}')
-  cy.wait('@getGeocodingAutocomplete').its('response.statusCode').should('eq', 200);
-  // cy.wait(2000)
-  cy.contains('[id="journey-advanced-shipping-modal"] li', Cypress.env('address')).click()
+  const locationModal = new SupermarketALocationModalPage()
+  api.setInterceptPostContentSquare()
+  api.setInterceptPostCenterAnalytics()
+  api.setInterceptPostGoogleMaps()
+  api.setInterceptGetGeocodingAutocomplete()
+  api.waitGetLocatorConfig()
+  homePage.clickOnShowPriceButton()
+  api.waitPostContentSquare()
+  locationModal.searchZipCode(user.zipCode)
+  api.waitPostCenterAnalytics()
+  locationModal.clickOnZipCode(user.zipCode)
+  api.waitPostGoogleMaps()
+  locationModal.chooseStoreLocation()
+  api.waitPostGoogleMaps()
+  locationModal.searchAddress(user.address)
+  api.waitGetGeocodingAutocomplete()
+  locationModal.clickOnAddress(user.address)
+  locationModal.checkModalNotExist()
+  homePage.checkSpinnerNotVisible()
+  homePage.checkSuccessLocationNotif()
 })
 
 Then('I can see the products prices', () => {
-  cy.get('article').contains('.product-price', '€')
+  homePage.checkPriceVisible()
 })
+
+Given('I have enabled my location', () => {
+  cy.setCookie(user.locationCookie.name, user.locationCookie.value)
+})
+
+Given('I have made a research for "oeufs"', () => {
+  const utils = new Utils()
+  homePage.visitEggsPage()
+  utils.handleExeption()
+})
+
+When('I filter the products by price ascending', () => {
+  homePage.filter('asc_price_pos')
+})
+
+Then('The products are sorted by price ascending', () => {
+  homePage.checkPriceAscending()
+}) 
+
