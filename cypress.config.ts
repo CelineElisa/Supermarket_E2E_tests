@@ -1,6 +1,6 @@
-import { defineConfig } from "cypress";
-import webpackPreprocessor from "@cypress/webpack-preprocessor";
-import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
+import { defineConfig } from 'cypress';
+import webpackPreprocessor from '@cypress/webpack-preprocessor';
+import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-preprocessor';
 import path from 'path'; 
 
 async function setupNodeEvents(
@@ -11,11 +11,11 @@ async function setupNodeEvents(
   await addCucumberPreprocessorPlugin(on, config);
 
   on(
-    "file:preprocessor",
+    'file:preprocessor',
     webpackPreprocessor({
       webpackOptions: {
         resolve: {
-          extensions: [".ts", ".js"],
+          extensions: ['.ts', '.js'],
           alias: {
             '@pages': path.resolve(__dirname, 'cypress/support/pages'), 
             '@data': path.resolve(__dirname, 'cypress/fixtures/users_data'),
@@ -30,7 +30,7 @@ async function setupNodeEvents(
               exclude: [/node_modules/],
               use: [
                 {
-                  loader: "ts-loader",
+                  loader: 'ts-loader',
                 },
               ],
             },
@@ -38,7 +38,7 @@ async function setupNodeEvents(
               test: /\.feature$/,
               use: [
                 {
-                  loader: "@badeball/cypress-cucumber-preprocessor/webpack",
+                  loader: '@badeball/cypress-cucumber-preprocessor/webpack',
                   options: config,
                 },
               ],
@@ -55,7 +55,8 @@ async function setupNodeEvents(
 
 export default defineConfig({
   e2e: {
-    specPattern: "**/*.feature",
+    specPattern: '**/*.feature',
     setupNodeEvents,
+    pageLoadTimeout: 120000,
   },
 });

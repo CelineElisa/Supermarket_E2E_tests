@@ -13,7 +13,7 @@ Feature: Supermarket A
     Then I can see the products results
     And I can see the products prices
 
-  Scenario: The user filter the products by price ascending
+  Scenario: The user filters the products by price ascending
     Given I am on the Supermarket A website
     And I have enabled my location
     And I have made a research for "oeufs"
