@@ -1,7 +1,7 @@
 # Supermarket web app E2E tests
 
 # Introduction 
-E2E tests using Cypress and Cucumber for Supermarkets web app
+E2E tests using Cypress and Cucumber for Supermarkets web apps
 
 # Getting Started
 

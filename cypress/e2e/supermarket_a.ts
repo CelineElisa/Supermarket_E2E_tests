@@ -9,7 +9,7 @@ const homePage = new SupermarketAHomePage();
 const api = new SupermarketAAPI();
 const user = new SupermarketAData();
    
-Given('I am on the Supermarket A website', () => {
+Given('I am on the "A" Supermarket website', () => {
   homePage.visit();
   homePage.acceptCookies();
 });
@@ -74,11 +74,11 @@ Given('I have made a research for "oeufs"', () => {
   utils.handleExeption();
 });
 
-When('I filter the products by price ascending', () => {
+When('I filter the products by ascending price', () => {
   homePage.filter('asc_price_pos');
 });
 
-Then('The products are sorted by price ascending', () => {
+Then('The products are sorted by ascending price', () => {
   homePage.checkPriceAscending();
 }); 
 
