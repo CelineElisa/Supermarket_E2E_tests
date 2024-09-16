@@ -1,6 +1,7 @@
 import { defineConfig } from 'cypress';
 import webpackPreprocessor from '@cypress/webpack-preprocessor';
 import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-preprocessor';
+import { allureCypress } from 'allure-cypress/reporter';
 import path from 'path'; 
 
 async function setupNodeEvents(
@@ -9,7 +10,7 @@ async function setupNodeEvents(
 ): Promise<Cypress.PluginConfigOptions> {
   // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
   await addCucumberPreprocessorPlugin(on, config);
-
+  allureCypress(on);
   on(
     'file:preprocessor',
     webpackPreprocessor({
