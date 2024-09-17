@@ -8,6 +8,7 @@ import { Utils } from '@utils';
 const homePage = new SupermarketAHomePage();
 const api = new SupermarketAAPI();
 const user = new SupermarketAData();
+const utils = new Utils();
    
 Given('I am on the "A" Supermarket website', () => {
   homePage.visit();
@@ -36,11 +37,9 @@ When('I enable my location', () => {
   homePage.clickOnShowPriceButton();
   api.waitGetLocatorSearch();
   api.waitPostGoogleMaps();
-  api.setInterceptPostTracking();
   api.setInterceptPostCenterAnalytics();
   api.setInterceptGetGeocodingAutocomplete();
   locationModal.searchZipCode(user.zipCode);
-  api.waitPostTracking();
   api.waitPostCenterAnalytics();
   api.waitGetGeocodingAutocomplete();
   api.setInterceptGetOfferingContext();
@@ -48,13 +47,8 @@ When('I enable my location', () => {
   locationModal.clickOnZipCode(user.zipCode);
   api.waitPostGoogleMaps();
   api.waitGetOfferingContext();
-  api.setInterceptLocatorShipping();
   locationModal.chooseStoreLocation();
-  api.waitGetLocatorShipping();
-  api.setInterceptGetGeocodingAutocomplete();
-  locationModal.searchAddress(user.address);
-  api.waitGetGeocodingAutocomplete();
-  locationModal.clickOnAddress(user.address);
+  utils.handleExeption();
   locationModal.checkModalNotExist();
   homePage.checkSpinnerNotVisible();
   homePage.checkSuccessLocationNotif();
@@ -69,7 +63,6 @@ Given('I have enabled my location', () => {
 });
 
 Given('I have made a research for "oeufs"', () => {
-  const utils = new Utils();
   homePage.visitEggsPage();
   utils.handleExeption();
 });

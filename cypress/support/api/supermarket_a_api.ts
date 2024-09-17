@@ -40,14 +40,6 @@ export class SupermarketAAPI {
     }).as('getGeocodingAutocomplete');
   }
 
-  setInterceptPostTracking(): void {
-    cy.intercept({
-      method: 'POST',
-      url: `${Cypress.env('URL_SUPERMARKET_A_API')}/tracking/v1/tracking`,
-      times: 1
-    }).as('postTracking');
-  }
-
   setInterceptGetOfferingContext():void {
     cy.intercept({
       method: 'GET',
@@ -55,14 +47,6 @@ export class SupermarketAAPI {
       times: 1,
     }).as('getOfferingContexts');
      
-  }
-
-  setInterceptLocatorShipping(): void {
-    cy.intercept({  
-      method: 'GET',
-      url: '/journey/locator/shipping?*',
-      times: 1,
-    }).as('getLocatorShipping');
   }
 
   waitGetLocatorConfig():void {
@@ -85,15 +69,7 @@ export class SupermarketAAPI {
     cy.wait('@getGeocodingAutocomplete').its('response.statusCode').should('eq', 200);
   }
 
-  waitPostTracking(): void {
-    cy.wait('@postTracking').its('response.statusCode').should('eq', 200);
-  }
-
   waitGetOfferingContext():void {
     cy.wait('@getOfferingContexts').its('response.statusCode').should('eq', 200);
-  }
-
-  waitGetLocatorShipping():void {
-    cy.wait('@getLocatorShipping').its('response.statusCode').should('eq', 200);
   }
 }

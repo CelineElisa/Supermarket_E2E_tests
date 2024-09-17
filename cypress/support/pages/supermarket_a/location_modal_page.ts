@@ -12,14 +12,6 @@ export class SupermarketALocationModalPage {
     cy.contains('[id="journey-update-modal_desc"] button', 'Choisir',{timeout: 30000}).click();
   }
 
-  searchAddress(address: string): void {
-    cy.get('[id="journey-advanced-shipping-modal"] input').eq(0).type(address).type('{enter}');
-  }
-
-  clickOnAddress(address: string): void {
-    cy.contains('[id="journey-advanced-shipping-modal"] li', address).click();
-  }
-
   checkModalNotExist(): void {
     cy.get('[id="journey-advanced-shipping-modal"]').should('not.exist');
   }

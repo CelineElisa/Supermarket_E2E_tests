@@ -10,7 +10,7 @@ export class SupermarketAData {
     this.address = '20 Rue Coquillière';
     this.locationCookie = {
       name: 'lark-journey',
-      value: 'f38d9460-d945-4820-a819-7bc4fdd07bdf',
+      value: '7dff1ccb-234f-4425-a183-bf2ad210868f',
     };
   }
 }
