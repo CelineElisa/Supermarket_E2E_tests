@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Sep 17 10:35:26 GMT 2024","Tue Sep 17 10:35:50 GMT 2024","23478","Supermarket A","","","","","The user enables the location to see the products prices",""
+"passed","Tue Sep 17 10:35:13 GMT 2024","Tue Sep 17 10:35:26 GMT 2024","12675","Supermarket A","","","","","The user searches for a product but can't see the products prices without enabling the location",""
+"passed","Tue Sep 17 10:35:50 GMT 2024","Tue Sep 17 10:35:57 GMT 2024","7572","Supermarket A","","","","","The user filters the products by ascending price",""
