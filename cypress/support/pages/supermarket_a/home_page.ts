@@ -1,11 +1,11 @@
 export class SupermarketAHomePage {
 
   visit():void  {
-    cy.visit(Cypress.env('url_supermarket_A'));
+    cy.visit(Cypress.env('URL_SUPERMARKET_A'));
   }
 
   visitEggsPage():void  {
-    cy.visit(`${Cypress.env('url_supermarket_A')}
+    cy.visit(`${Cypress.env('URL_SUPERMARKET_A')}
     /oeufs-produits-laitiers/cremerie-oeufs-laits/oeufs/ca-n010103?redirect_keywords=oeufs&x-ua-device=mobile`);
   }
 

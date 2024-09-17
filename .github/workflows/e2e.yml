@@ -17,6 +17,9 @@ jobs:
       run: npm install
 
     - name: Run Cypress tests
+      env:
+          CYPRESS_URL_SUPERMARKET_A: ${{ secrets.URLSUPERMARKETA }}
+          CYPRESS_URL_SUPERMARKET_A_API: ${{ secrets.URLSUPERSECRETAAPI }}
       run: npm run cypress:run
 
     - name: Save screenshots as artifacts

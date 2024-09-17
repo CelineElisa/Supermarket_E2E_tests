@@ -43,7 +43,7 @@ export class SupermarketAAPI {
   setInterceptPostTracking(): void {
     cy.intercept({
       method: 'POST',
-      url: `${Cypress.env('url_supermarket_A_API')}/tracking/v1/tracking`,
+      url: `${Cypress.env('URL_SUPERMARKET_A_API')}/tracking/v1/tracking`,
       times: 1
     }).as('postTracking');
   }
