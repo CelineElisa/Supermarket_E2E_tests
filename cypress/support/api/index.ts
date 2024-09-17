@@ -1,1 +1,0 @@
-export { SupermarketAAPI } from './supermarket_a_api';
