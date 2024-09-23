@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.7
 
     - name: Install dependencies
       run: npm install
@@ -30,7 +30,7 @@ jobs:
         path: cypress/screenshots
 
     - name: Load test report history
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4.1.7
       if: always()
       continue-on-error: true
       with:
